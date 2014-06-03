@@ -1,0 +1,8 @@
+connect / as sysdba;
+<% s = Set.new @locked_users
+  @oracle_locked_users.each do |account|
+  unless s.include? account -%>
+ALTER user <%= account %> ACCOUNT UNLOCK;
+<% end -%>
+<% end -%>
+exit;

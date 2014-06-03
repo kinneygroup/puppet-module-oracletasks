@@ -1,0 +1,5 @@
+connect / as sysdba;
+SET LINESIZE 100;
+SET PAGESIZE 50;
+select USERNAME, ACCOUNT_STATUS from DBA_USERS where ACCOUNT_STATUS <> 'OPEN';
+exit;

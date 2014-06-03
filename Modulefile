@@ -1,0 +1,10 @@
+name 'kinneygroup-oracletasks'
+version '0.1.0'
+source 'git://github.com/kinneygroup/puppet-module-oracletasks.git'
+author 'kinneygroup'
+license 'Apache 2.0'
+summary 'unlock oracle accounts'
+description 'unlock oracle accounts'
+project_page 'https://github.com/kinneygroup/puppet-module-oracletasks'
+
+dependency 'puppetlabs/stdlib', '>= 3.2.0'
