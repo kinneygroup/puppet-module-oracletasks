@@ -27,17 +27,17 @@ This module is built for use with Puppet v3 with Ruby versions 1.8.7, 1.9.3, and
 locked_users_script
 -------------------
 
-- *Default*: '/home/oracle/.locked_users_query.sql',
+- *Default*: '/home/oracle/.locked_users_query.sql'
 
 unlock_users_script
 -------------------
 
-- *Default*: '/home/oracle/.unlock_users.sql',
+- *Default*: '/home/oracle/.unlock_users.sql'
 
 locked_users
 ------------
 
-- *Default*: undef,
+- *Default*: undef
 
 unlock_oracle_users_cmd
 -----------------------
@@ -47,4 +47,4 @@ unlock_oracle_users_cmd
 unlock_oracle_users_path
 ------------------------
 
-- *Default*: '/bin:/usr/bin',
+- *Default*: '/bin:/usr/bin'
