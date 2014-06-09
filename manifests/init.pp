@@ -8,10 +8,19 @@ class oracletasks (
   $locked_users             = undef,
   $unlock_oracle_users_cmd  = 'su -l oracle -c \'sqlplus /nolog @/home/oracle/.unlock_users.sql\'',
   $unlock_oracle_users_path = '/bin:/usr/bin',
+  $passwords                = undef,
+  $passwords_hiera_merge    = true,
 ) {
 
   validate_absolute_path($locked_users_script)
   validate_absolute_path($unlock_users_script)
+
+  if type($passwords_hiera_merge) == 'string' {
+    $passwords_hiera_merge_real = str2bool($passwords_hiera_merge)
+  } else {
+    $passwords_hiera_merge_real = $passwords_hiera_merge
+  }
+  validate_bool($passwords_hiera_merge_real)
 
   file { 'locked_users_script':
     ensure => file,
@@ -39,5 +48,15 @@ class oracletasks (
       path        => $unlock_oracle_users_path,
       subscribe   => File['unlock_users_script'],
     }
+  }
+
+  if $passwords != undef {
+    if $passwords_hiera_merge_real == true {
+      $passwords_real = hiera_hash('oracletasks::passwords')
+    } else {
+      $passwords_real = $passwords
+    }
+    validate_hash($passwords_real)
+    create_resources('oracletasks::password',$passwords_real)
   }
 }
