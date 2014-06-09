@@ -10,6 +10,8 @@ class oracletasks (
   $unlock_oracle_users_path = '/bin:/usr/bin',
   $passwords                = undef,
   $passwords_hiera_merge    = true,
+  $column_types             = undef,
+  $column_types_hiera_merge = true,
 ) {
 
   validate_absolute_path($locked_users_script)
@@ -21,6 +23,13 @@ class oracletasks (
     $passwords_hiera_merge_real = $passwords_hiera_merge
   }
   validate_bool($passwords_hiera_merge_real)
+
+  if type($column_types_hiera_merge) == 'string' {
+    $column_types_hiera_merge_real = str2bool($column_types_hiera_merge)
+  } else {
+    $column_types_hiera_merge_real = $column_types_hiera_merge
+  }
+  validate_bool($column_types_hiera_merge_real)
 
   file { 'locked_users_script':
     ensure => file,
@@ -58,5 +67,15 @@ class oracletasks (
     }
     validate_hash($passwords_real)
     create_resources('oracletasks::password',$passwords_real)
+  }
+
+  if $column_types != undef {
+    if $column_types_hiera_merge_real == true {
+      $column_types_real = hiera_hash('oracletasks::column_types')
+    } else {
+      $column_types_real = $column_types
+    }
+    validate_hash($column_types_real)
+    create_resources('oracletasks::column_type',$column_types_real)
   }
 }
